@@ -23,10 +23,10 @@ class CourseTile extends StatelessWidget {
 
     Widget tile = Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
-      elevation: 0,
+      elevation: isDark ? 0 : 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: colorScheme.outlineVariant.withAlpha(128)),
+        side: BorderSide(color: colorScheme.outlineVariant),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -45,7 +45,7 @@ class CourseTile extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
-                      Icons.school_outlined,
+                      Icons.school_rounded,
                       color: colorScheme.onPrimaryContainer,
                       size: 20,
                     ),
@@ -57,8 +57,12 @@ class CourseTile extends StatelessWidget {
                       children: [
                         Text(
                           course.name,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -69,16 +73,31 @@ class CourseTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (onEdit != null)
-                    IconButton(
-                      icon: Icon(
-                        Icons.edit_outlined,
-                        color: colorScheme.primary,
-                        size: 20,
-                      ),
-                      onPressed: onEdit,
-                      tooltip: 'Edit Course',
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (onEdit != null)
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit_rounded,
+                            color: colorScheme.primary,
+                            size: 20,
+                          ),
+                          onPressed: onEdit,
+                          tooltip: 'Edit Course',
+                        ),
+                      if (onDelete != null)
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete_outline,
+                            color: colorScheme.error,
+                            size: 20,
+                          ),
+                          onPressed: onDelete,
+                          tooltip: 'Delete Course',
+                        ),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -92,9 +111,10 @@ class CourseTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  'Grade: ${course.grade} | Score: ${course.score}%',
+                  'Grade: ${course.grade}',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: isDark ? Colors.white : Colors.black87,
+                    color:
+                        isDark ? colorScheme.onPrimary : colorScheme.onSurface,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
