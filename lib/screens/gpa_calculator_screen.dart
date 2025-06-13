@@ -84,7 +84,7 @@ class _GpaCalculatorScreenState extends State<GpaCalculatorScreen> {
   }
 
   Widget _buildCourseItem(CourseModel course, int index) {
-    return Card(
+    final card = Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -162,9 +162,16 @@ class _GpaCalculatorScreenState extends State<GpaCalculatorScreen> {
                   ),
                 ),
               ),
-            ],          ),
+            ],
+          ),
         ),
-      ).animate().fadeIn().slideX(begin: 0.2, duration: 400.ms);
+      ),
+    );
+
+    // Add animations
+    return card.animate()
+      .fadeIn(duration: 400.ms)
+      .slideX(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic);
   }
 
   @override
