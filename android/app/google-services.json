@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "451885187634",
+    "project_id": "grademate-88d05",
+    "storage_bucket": "grademate-88d05.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451885187634:android:9023c34eb13e1dde9a722b",
+        "android_client_info": {
+          "package_name": "com.example.grademate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkp649EPFoEQ57QNMWIibGadCFVYJAA0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
