@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'controllers/app_state.dart';
 import 'providers/theme_provider.dart';
 import 'firebase_options.dart';
-import 'screens/onboarding/splash_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +32,10 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder:
-            (context, themeProvider, _) => MaterialApp(
-              title: 'GradeMate',
+            (context, themeProvider, _) => MaterialApp(              title: 'GradeMate',
               debugShowCheckedModeBanner: false,
               themeMode: themeProvider.themeMode,
+              home: const WelcomeScreen(),
               theme: ThemeData(
                 useMaterial3: true,
                 brightness: Brightness.light,
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const SplashScreen(),
+
             ),
       ),
     );

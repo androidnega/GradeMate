@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../models/course_model.dart';
 import '../utils/classification_utils.dart';
 import '../models/degree_level.dart';
@@ -25,6 +26,27 @@ class _GpaCalculatorScreenState extends State<GpaCalculatorScreen> {
   double _cwa = 0.0;
   DegreeLevel _degreeLevel = DegreeLevel.bTech;
   CalculationMode _calculationMode = CalculationMode.gpa;
+
+  IconData _getAchievementIcon(double gpa) {
+    if (gpa >= 3.6) return Icons.emoji_events_rounded;
+    if (gpa >= 3.0) return Icons.star_rounded;
+    if (gpa >= 2.5) return Icons.thumb_up_rounded;
+    return Icons.school_rounded;
+  }
+
+  String _getAchievementText(double gpa) {
+    if (gpa >= 3.6) return 'Outstanding';
+    if (gpa >= 3.0) return 'Excellent';
+    if (gpa >= 2.5) return 'Good Work';
+    return 'Keep Going';
+  }
+
+  Color _getAchievementColor(double gpa) {
+    if (gpa >= 3.6) return Colors.amber;
+    if (gpa >= 3.0) return Colors.lightGreenAccent;
+    if (gpa >= 2.5) return Colors.lightBlue;
+    return Colors.grey.shade400;
+  }
 
   Future<void> _saveGpaResult() async {
     final user = AuthService.currentUser;
@@ -81,6 +103,27 @@ class _GpaCalculatorScreenState extends State<GpaCalculatorScreen> {
   void _removeCourse(int index) {
     setState(() => _courses.removeAt(index));
     _updateResults();
+  }
+
+  IconData _getAchievementIcon(double gpa) {
+    if (gpa >= 3.6) return Icons.emoji_events_rounded;
+    if (gpa >= 3.0) return Icons.star_rounded;
+    if (gpa >= 2.5) return Icons.thumb_up_rounded;
+    return Icons.school_rounded;
+  }
+
+  String _getAchievementText(double gpa) {
+    if (gpa >= 3.6) return 'Outstanding';
+    if (gpa >= 3.0) return 'Excellent';
+    if (gpa >= 2.5) return 'Good Work';
+    return 'Keep Going';
+  }
+
+  Color _getAchievementColor(double gpa) {
+    if (gpa >= 3.6) return Colors.amber;
+    if (gpa >= 3.0) return Colors.lightGreenAccent;
+    if (gpa >= 2.5) return Colors.lightBlue;
+    return Colors.grey.shade400;
   }
 
   @override
@@ -362,41 +405,130 @@ class _GpaCalculatorScreenState extends State<GpaCalculatorScreen> {
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child:
-                _courses.isEmpty
-                    ? Center(
-                      child: Text(
-                        'Tap + to add your courses',
-                        style: TextStyle(color: Colors.grey[600], fontSize: 16),
+          ),          if (_courses.isEmpty)
+            SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.school_outlined,
+                      size: 64,
+                      color: Theme.of(context).colorScheme.primary,
+                    ).animate().scale(),
+                    const SizedBox(height: 16),
+                    Text(
+                      'No courses yet',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
-                    )
-                    : ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _courses.length,
-                      itemBuilder: (context, index) {
-                        final course = _courses[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Card(
-                            child: ListTile(
-                              title: Text(course.name),
-                              subtitle: Text(
-                                _calculationMode == CalculationMode.gpa
-                                    ? '${course.creditHours} credits • Grade: ${course.grade}'
-                                    : '${course.creditHours} credits • Score: ${course.rawScore?.toStringAsFixed(1) ?? "-"}%',
+                    ).animate().fadeIn(),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Add your first course to calculate ${_calculationMode == CalculationMode.gpa ? 'GPA' : 'CWA'}',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ).animate().fadeIn(delay: 200.ms),
+                  ],
+                ),
+              ),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.all(16),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final course = _courses[index];
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.5),
+                        ),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onLongPress: () => _removeCourse(index),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.primaryContainer,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Icon(
+                                      Icons.school_outlined,
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          course.name,
+                                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${course.creditHours} credit hours',
+                                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.delete_outline,
+                                      size: 20,
+                                      color: Theme.of(context).colorScheme.error,
+                                    ),
+                                    onPressed: () => _removeCourse(index),
+                                  ),
+                                ],
                               ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline),
-                                onPressed: () => _removeCourse(index),
+                              const SizedBox(height: 12),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  _calculationMode == CalculationMode.gpa
+                                      ? 'Grade: ${course.grade}'
+                                      : 'Score: ${course.rawScore?.toStringAsFixed(1) ?? "-"}%',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
-          ),
+                        ),
+                      ),
+                    ).animate().fadeIn().slideX(begin: 0.2);
+                  },
+                  childCount: _courses.length,
+                ),
+              ),
+            ),
           if (widget.isGuest && _courses.isNotEmpty)
             Container(
               color: Colors.grey.shade50,
