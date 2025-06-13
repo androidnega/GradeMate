@@ -257,31 +257,104 @@ class _GpaCalculatorScreenState extends State<GpaCalculatorScreen> {
                           .toList(),
                 ),
                 const SizedBox(height: 12),
-                Column(
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          _calculationMode == CalculationMode.gpa
-                              ? 'Current GPA'
-                              : 'Current CWA',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          _calculationMode == CalculationMode.gpa
-                              ? GPACalculator.formatGPA(_gpa)
-                              : GPACalculator.formatCWA(_cwa),
-                          style: Theme.of(
-                            context,
-                          ).textTheme.displaySmall?.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Standing: ${_calculationMode == CalculationMode.gpa ? ClassificationUtils.getClassification(_degreeLevel, _gpa) : GPACalculator.getCWAClassification(_cwa)}',
-                          style: Theme.of(context).textTheme.titleMedium,
+                Column(                      children: [
+                        // Mode Toggle
+                        SegmentedButton<CalculationMode>(
+                          selected: {_calculationMode},
+                          onSelectionChanged: (Set<CalculationMode> selected) {
+                            setState(() {
+                              _calculationMode = selected.first;
+                              _courses.clear();
+                              _updateResults();
+                            });
+                          },
+                          segments: const [
+                            ButtonSegment<CalculationMode>(
+                              value: CalculationMode.gpa,
+                              label: Text('GPA'),
+                            ),
+                            ButtonSegment<CalculationMode>(
+                              value: CalculationMode.cwa,
+                              label: Text('CWA'),
+                            ),
+                          ],
+                        ).animate().fadeIn().slideY(begin: -0.2),
+                        const SizedBox(height: 24),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    children: [
+                                      Text(
+                                        _calculationMode == CalculationMode.gpa
+                                            ? GPACalculator.formatGPA(_gpa)
+                                            : GPACalculator.formatCWA(_cwa),
+                                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        _calculationMode == CalculationMode.gpa ? 'GPA' : 'CWA',
+                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          color: Colors.white70,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      _calculationMode == CalculationMode.gpa
+                                          ? ClassificationUtils.getClassification(_degreeLevel, _gpa)
+                                          : GPACalculator.getCWAClassification(_cwa),
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    _getAchievementIcon(_gpa),
+                                    color: _getAchievementColor(_gpa),
+                                    size: 32,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    _getAchievementText(_gpa),
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
