@@ -22,7 +22,7 @@ class _NavigationOption extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Material(
-      color: colorScheme.surfaceVariant.withOpacity(0.3),
+      color: colorScheme.surfaceContainerHighest,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: onTap,
@@ -106,7 +106,7 @@ class IntroScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      ).colorScheme.onSurfaceVariant.withAlpha(102),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),

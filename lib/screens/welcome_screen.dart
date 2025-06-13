@@ -22,11 +22,12 @@ class _ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     return Material(
-      color: isPrimary 
-          ? colorScheme.primaryContainer 
-          : colorScheme.surfaceVariant.withOpacity(0.3),
+      color:
+          isPrimary
+              ? colorScheme.primaryContainer
+              : colorScheme.surfaceContainerHighest,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: onTap,
@@ -38,16 +39,18 @@ class _ActionButton extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: isPrimary 
-                      ? colorScheme.primary 
-                      : colorScheme.primaryContainer,
+                  color:
+                      isPrimary
+                          ? colorScheme.primary
+                          : colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
-                  color: isPrimary 
-                      ? colorScheme.onPrimary 
-                      : colorScheme.onPrimaryContainer,
+                  color:
+                      isPrimary
+                          ? colorScheme.onPrimary
+                          : colorScheme.onPrimaryContainer,
                 ),
               ),
               const SizedBox(width: 16),
@@ -55,21 +58,11 @@ class _ActionButton extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      label,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: isPrimary 
-                            ? colorScheme.onPrimaryContainer
-                            : colorScheme.onSurface,
-                      ),
-                    ),
+                    Text(label, style: Theme.of(context).textTheme.titleMedium),
                     Text(
                       subtitle,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: isPrimary 
-                            ? colorScheme.onPrimaryContainer.withOpacity(0.8)
-                            : colorScheme.onSurfaceVariant,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurface.withAlpha(178),
                       ),
                     ),
                   ],
@@ -78,9 +71,10 @@ class _ActionButton extends StatelessWidget {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 16,
-                color: isPrimary 
-                    ? colorScheme.onPrimaryContainer.withOpacity(0.8)
-                    : colorScheme.onSurfaceVariant,
+                color:
+                    isPrimary
+                        ? colorScheme.onPrimaryContainer.withAlpha(204)
+                        : colorScheme.onSurfaceVariant.withAlpha(204),
               ),
             ],
           ),
@@ -142,7 +136,8 @@ class WelcomeScreen extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const GpaCalculatorScreen(isGuest: true),
+                          builder:
+                              (_) => const GpaCalculatorScreen(isGuest: true),
                         ),
                       );
                     },
@@ -156,9 +151,7 @@ class WelcomeScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const LoginScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
                       );
                     },
                   ).animate(delay: 600.ms).fadeIn().slideX(begin: 0.3),
@@ -170,9 +163,7 @@ class WelcomeScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const AboutScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const AboutScreen()),
                       );
                     },
                   ).animate(delay: 800.ms).fadeIn().slideX(begin: -0.3),

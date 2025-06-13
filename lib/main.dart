@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder:
-            (context, themeProvider, _) => MaterialApp(              title: 'GradeMate',
+            (context, themeProvider, _) => MaterialApp(
+              title: 'GradeMate',
               debugShowCheckedModeBanner: false,
               themeMode: themeProvider.themeMode,
               home: const WelcomeScreen(),
@@ -79,7 +80,6 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-
             ),
       ),
     );

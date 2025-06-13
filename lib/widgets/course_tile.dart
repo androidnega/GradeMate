@@ -26,7 +26,7 @@ class CourseTile extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: colorScheme.outlineVariant.withOpacity(0.5)),
+        side: BorderSide(color: colorScheme.outlineVariant.withAlpha(128)),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),

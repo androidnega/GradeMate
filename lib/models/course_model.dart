@@ -77,4 +77,8 @@ class CourseModel {
       'mode': mode.index,
     };
   }
+
+  // Score getter that returns rawScore for CWA mode or gradePoint for GPA mode
+  double get score =>
+      mode == CalculationMode.cwa ? (rawScore ?? 0.0) : gradePoint;
 }
